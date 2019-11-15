@@ -1,0 +1,66 @@
+package Com.Servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import Com.connection.DatabaseConnection;
+
+@WebServlet("/RegistrationServlet")
+public class RegistrationServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+   	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+   		try { 
+
+			Connection con = DatabaseConnection.initializeDatabase(); 
+
+			PreparedStatement st = con.prepareStatement("insert into student values(?,?,?,?,?,?,?,?,?,?,?,?)"); 
+			st.setString(1, request.getParameter("usn")); 
+			st.setString(2, request.getParameter("fname")); 
+			st.setString(3, request.getParameter("lname")); 
+			st.setString(4, request.getParameter("bdate")); 
+			st.setString(5, request.getParameter("city")); 
+			st.setString(6, request.getParameter("state")); 
+			st.setString(7, request.getParameter("country")); 
+			st.setString(8, request.getParameter("loginname")); 
+			st.setString(9, request.getParameter("password")); 
+			st.setString(10, request.getParameter("collagename")); 
+			st.setString(11, request.getParameter("branch")); 
+			st.setString(12, request.getParameter("semester")); 
+			
+			st.executeUpdate(); 
+
+			// Close all the connections 
+			st.close(); 
+			con.close(); 
+
+				PrintWriter out = response.getWriter(); 
+			out.println("<html><body><b>Successfully Created" + "</b></body></html>");
+			//response.sendRedirect("StudentLogin.jsp");
+			
+		} 
+		catch (Exception e)
+		{ 
+
+			response.sendRedirect("Studentregistration.jsp");
+			
+		} 
+		
+	}
+
+
+
+   	
+   	
+   	}
+
+
